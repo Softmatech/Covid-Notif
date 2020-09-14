@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/screens/appbase.dart';
 import 'package:flutter_practice/screens/login_screen.dart';
 
 void main() {
@@ -24,7 +25,7 @@ class MyApp extends StatelessWidget {
           )
         ),
       ),
-      home: Login(title: 'Log In'),
+      home: AppBase(title: 'Base'),
     );
   }
 }
