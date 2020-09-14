@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_practice/screens/timeline.dart';
 
 class Login extends StatefulWidget {
   Login({Key key, this.title}) : super(key: key);
@@ -89,7 +90,7 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.only(left: 50.0, right: 50.0),
               child: RaisedButton(
                 onPressed: ()=>{
-                  'yessss',
+                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Timeline()))
                 },
                 elevation: 10.0,
                 color: Colors.white,
