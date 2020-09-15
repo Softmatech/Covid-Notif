@@ -109,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                   elevation: 10.0,
                   color: Colors.white,
                   child: Text(
-                    'Sign in',
+                    'Sign Up',
                     style: TextStyle(
                       color: Color.fromRGBO(55, 23, 65, 1),
                       fontWeight: FontWeight.bold,

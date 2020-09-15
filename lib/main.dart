@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/screens/appbase.dart';
 import 'package:flutter_practice/screens/login_screen.dart';
+import 'package:flutter_practice/screens/signup.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,6 +13,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: <String, WidgetBuilder> {
+        '/Login': (BuildContext context) => Login(title: 'Log In',),
+        '/SignUp': (BuildContext context) => SignUp(title: 'Sign Up',),
+      },
       title: 'NouKòd Flutter Practice',
       theme: ThemeData(
         scaffoldBackgroundColor:  Color.fromRGBO(55, 23, 65, 1),
@@ -25,7 +30,7 @@ class MyApp extends StatelessWidget {
           )
         ),
       ),
-      home: AppBase(title: 'Base'),
+      home: AppBase()
     );
   }
 }

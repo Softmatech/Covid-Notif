@@ -91,7 +91,7 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.only(left: 50.0, right: 50.0),
               child: RaisedButton(
                 onPressed: ()=>{
-                Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => Timeline()))
+                Navigator.pushNamed(context, '/SignUp')
                 },
                 elevation: 10.0,
                 color: Colors.white,

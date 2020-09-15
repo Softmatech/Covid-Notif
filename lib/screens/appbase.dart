@@ -1,87 +1,62 @@
+import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-/// This Widget is the main application widget.
+import 'destination.dart';
+
 class AppBase extends StatefulWidget {
-
-  AppBase({Key key, this.title}) : super(key: key);
-
-  final String title;
-
   @override
   _AppBaseState createState() => _AppBaseState();
 }
 
-class _AppBaseState extends State<AppBase> {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'App Base',
-      theme: ThemeData(
-        scaffoldBackgroundColor:  Color.fromRGBO(55, 23, 65, 1),
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-        textTheme: TextTheme(
-            headline3: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.normal,
-              fontFamily: 'Spartan MB',
-            )
-        ),
-      ),
-      home: MyStatefulWidget(),
-    );
-  }
-}
-
-class MyStatefulWidget extends StatefulWidget {
-  MyStatefulWidget({Key key}) : super(key: key);
-
-  @override
-  _MyStatefulWidgetState createState() => _MyStatefulWidgetState();
-}
-
-class _MyStatefulWidgetState extends State<MyStatefulWidget> {
-  int _selectedIndex = 0;
-  static const TextStyle optionStyle =
-  TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.white);
-  static const List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    )
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+class _AppBaseState extends State<AppBase> with TickerProviderStateMixin<AppBase> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: SafeArea(
+        top: false,
+        child: IndexedStack(
+          index: _currentIndex,
+          children: allDestinations.map<Widget>((Destination destination) {
+            return DestinationView(destination: destination);
+          }).toList(),
+        ),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_pin),
-            title: Text('Sign In'),
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.supervised_user_circle),
-            title: Text('Sign Up'),
-          )
+      bottomNavigationBar:
+      FancyBottomNavigation(
+        circleColor: Color.fromRGBO(55, 23, 65, 1),
+        inactiveIconColor: Color.fromRGBO(55, 23, 65, 0.7),
+        tabs: [
+          TabData(iconData: Icons.person_pin, title: "Sign In"),
+          TabData(iconData: Icons.supervised_user_circle, title: "Sign Up"),
         ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Color.fromRGBO(55, 23, 65, 1),
-        onTap: _onItemTapped,
-      ),
+        onTabChangedListener: (position) {
+          setState(() {
+            _currentIndex = position;
+          });
+        },
+      )
+
     );
   }
+
+  @override
+  void initState() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp
+    ]);
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp
+    ]);
+  }
+
 }
