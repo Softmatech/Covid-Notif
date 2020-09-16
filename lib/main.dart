@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_practice/screens/appbase.dart';
 import 'package:flutter_practice/screens/login_screen.dart';
 import 'package:flutter_practice/screens/signup.dart';
@@ -32,12 +33,25 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Spartan MB',
           ),
             headline4: TextStyle(
-              color: Colors.white,
+              color: kPrimaryColor,
               fontWeight: FontWeight.normal,
               fontFamily: 'Spartan MB',
-              fontSize: 23
+              fontSize: 20
+            ),
+            headline5: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Spartan MB',
+                fontSize: 17
+            ),
+            headline6: TextStyle(
+                color: Colors.white60,
+                fontWeight: FontWeight.normal,
+                fontFamily: 'Spartan MB',
+                fontSize: 10
             )
         ),
+
       ),
       home: AppBase()
     );
