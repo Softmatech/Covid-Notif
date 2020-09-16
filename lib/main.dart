@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_practice/screens/appbase.dart';
+import 'package:flutter_practice/screens/info_screen.dart';
 import 'package:flutter_practice/screens/login_screen.dart';
 import 'package:flutter_practice/screens/signup.dart';
 
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/Login': (BuildContext context) => Login(title: 'Log In',),
         '/SignUp': (BuildContext context) => SignUp(title: 'Sign Up',),
         '/Timeline': (BuildContext context) => Timeline(),
+        '/Infoscreen': (BuildContext context) => InfoScreen(),
       },
       title: 'NouKòd Flutter Practice',
       theme: ThemeData(

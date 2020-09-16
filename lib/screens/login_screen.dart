@@ -92,7 +92,7 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.only(left: 50.0, right: 50.0),
               child: RaisedButton(
                 onPressed: ()=>{
-                Navigator.pushNamed(context, '/Timeline')
+                Navigator.pushNamed(context, '/Infoscreen')
                 },
                 elevation: 10.0,
                 color: Colors.white,
