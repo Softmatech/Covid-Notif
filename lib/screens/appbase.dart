@@ -32,7 +32,7 @@ class _AppBaseState extends State<AppBase> with SingleTickerProviderStateMixin{
         backgroundColor: kPrimaryColor,
         bottom: TabBar(
           controller: _tabController,
-          indicatorColor: Theme.of(context).accentColor,
+          indicatorColor: kFourthColor,
           labelColor: kFourthColor,
           unselectedLabelColor: Colors.white38,
           labelStyle: TextStyle(
