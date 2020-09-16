@@ -30,7 +30,13 @@ class MyApp extends StatelessWidget {
             color: Colors.white,
             fontWeight: FontWeight.normal,
             fontFamily: 'Spartan MB',
-          )
+          ),
+            headline4: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Spartan MB',
+              fontSize: 23
+            )
         ),
       ),
       home: AppBase()
