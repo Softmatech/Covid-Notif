@@ -4,6 +4,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'counter.dart';
+
 
 class Timeline extends StatefulWidget {
   @override
@@ -16,58 +18,7 @@ class _TimelineState extends State<Timeline> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          ClipPath(
-            clipper: MyClipper(),
-            child: Container(
-              padding: EdgeInsets.only(left: 40, top: 50, right: 20),
-              height: 350,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [
-                        kFourthColor,
-                        kFourthColor
-                      ]
-                  ),
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/virus.png")
-                  )
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Align(
-                    alignment: Alignment.topRight,
-                      child: SvgPicture.asset("assets/icons/menu.svg"),
-                  ),
-                  SizedBox(height: 20,),
-                  Expanded(
-                    child: Stack(
-                      children: <Widget>[
-                        SvgPicture.asset(
-                          "assets/icons/social_distancing.svg",
-                          width: 230,
-                          fit: BoxFit.fitWidth,
-                          alignment: Alignment.topCenter,
-                        ),
-                        Positioned(
-                          top: 0,
-                          left: 0,
-                          child: Text(
-                            "Your Mask Please and Stay Home !",
-                            style: Theme.of(context).textTheme.headline4,
-                          ),
-                        ),
-                        Container(),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
+          MyHeader(),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             padding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
@@ -165,6 +116,41 @@ class _TimelineState extends State<Timeline> {
                     ],
                   ),
                 ),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(
+                      "Spread of the Virus",
+                      style: Theme.of(context).textTheme.headline5,
+                    ),
+                    Text(
+                      "See Details",
+                      style: TextStyle(
+                        color: kFourthColor,
+                        fontWeight: FontWeight.w600
+                      ),
+                    )
+                  ],
+                ),
+                Container(
+                  margin: EdgeInsets.only(top: 7),
+                  padding: EdgeInsets.all(10),
+                  height: 178,
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        offset: Offset(0,10),
+                        blurRadius: 30,
+                        color: kThirdColor
+                      ),
+                    ]
+                  ),
+                  child: Image.asset("assets/images/map.png", fit: BoxFit.scaleDown,),
+                ),
               ],
             ),
           ),
@@ -194,57 +180,68 @@ class _TimelineState extends State<Timeline> {
 
 }
 
-class Counter extends StatelessWidget {
-
-  final int number;
-  final Color color;
-  final String title;
-
-  const Counter({
-    Key key, this.number, this.color, this.title,
+class MyHeader extends StatelessWidget {
+  const MyHeader({
+    Key key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Container(
-          padding: EdgeInsets.all(6),
-          height: 25,
-          width: 25,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: color.withOpacity(.50),
-          ),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: Colors.transparent,
-              border: Border.all(
-                color: color,
-                width: 2
+    return ClipPath(
+      clipper: MyClipper(),
+      child: Container(
+        padding: EdgeInsets.only(left: 40, top: 50, right: 20),
+        height: 350,
+        width: double.infinity,
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  kFourthColor,
+                  kFourthColor
+                ]
+            ),
+            image: DecorationImage(
+                image: AssetImage("assets/images/virus.png")
+            )
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Align(
+              alignment: Alignment.topRight,
+                child: SvgPicture.asset("assets/icons/menu.svg"),
+            ),
+            SizedBox(height: 20,),
+            Expanded(
+              child: Stack(
+                children: <Widget>[
+                  SvgPicture.asset(
+                    "assets/icons/social_distancing.svg",
+                    width: 230,
+                    fit: BoxFit.fitWidth,
+                    alignment: Alignment.topCenter,
+                  ),
+                  Positioned(
+                    top: 0,
+                    left: 0,
+                    child: Text(
+                      "Wear a Mask Please, Stay Home !",
+                      style: Theme.of(context).textTheme.headline4,
+                    ),
+                  ),
+                  Container(),
+                ],
               ),
             ),
-          ),
+          ],
         ),
-        SizedBox(height: 10,),
-        Text(
-          "$number",
-          style: TextStyle(
-              fontSize: 40,
-              color: color
-          ),
-        ),
-        Text(
-          "$title",
-          style: TextStyle(
-            color: color
-          ),
-        )
-      ],
+      ),
     );
   }
 }
+
 
 class MyClipper extends CustomClipper<Path> {
   @override
