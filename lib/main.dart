@@ -4,6 +4,8 @@ import 'package:flutter_practice/screens/appbase.dart';
 import 'package:flutter_practice/screens/login_screen.dart';
 import 'package:flutter_practice/screens/signup.dart';
 
+import 'screens/timeline.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -16,6 +18,7 @@ class MyApp extends StatelessWidget {
       routes: <String, WidgetBuilder> {
         '/Login': (BuildContext context) => Login(title: 'Log In',),
         '/SignUp': (BuildContext context) => SignUp(title: 'Sign Up',),
+        '/Timeline': (BuildContext context) => Timeline(),
       },
       title: 'NouKòd Flutter Practice',
       theme: ThemeData(

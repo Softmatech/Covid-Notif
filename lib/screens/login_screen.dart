@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_practice/screens/timeline.dart';
 
 class Login extends StatefulWidget {
@@ -91,14 +92,14 @@ class _LoginState extends State<Login> {
               padding: EdgeInsets.only(left: 50.0, right: 50.0),
               child: RaisedButton(
                 onPressed: ()=>{
-                Navigator.pushNamed(context, '/SignUp')
+                Navigator.pushNamed(context, '/Timeline')
                 },
                 elevation: 10.0,
                 color: Colors.white,
                 child: Text(
                     'Sign in',
                   style: TextStyle(
-                    color: Color.fromRGBO(55, 23, 65, 1),
+                    color: kPrimaryColor,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -113,6 +114,7 @@ class _LoginState extends State<Login> {
 
   @override
   void initState() {
+    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
@@ -126,5 +128,6 @@ class _LoginState extends State<Login> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp
     ]);
+    super.dispose();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_practice/Utility/constants.dart';
 
 
 class Timeline extends StatefulWidget {
@@ -12,14 +13,31 @@ class _TimelineState extends State<Timeline> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black45,
-        title: Text('Home Page'),
+        title: Text('Timeline'),
       ),
-      body: Center(
-        child: Text(
-          'Home Page',
-          style: Theme.of(context).textTheme.headline3,
-        ),
+      body: Column(
+        children: <Widget>[
+          Container(
+            height: 350,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [
+                      kFourthColor,
+                      kPrimaryColor
+                    ]
+                ),
+                image: DecorationImage(
+                    image: AssetImage("assets/images/virus.png")
+                )
+            ),
+          )
+        ],
+
       ),
     );
   }
 }
+

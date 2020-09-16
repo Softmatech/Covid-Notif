@@ -1,52 +1,67 @@
-import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_practice/Utility/constants.dart';
 
-import 'destination.dart';
+import 'login_screen.dart';
+import 'signup.dart';
 
 class AppBase extends StatefulWidget {
   @override
   _AppBaseState createState() => _AppBaseState();
 }
 
-class _AppBaseState extends State<AppBase> with TickerProviderStateMixin<AppBase> {
-  int _currentIndex = 0;
+class _AppBaseState extends State<AppBase> with SingleTickerProviderStateMixin{
+
+  TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp
+    ]);
+
+    _tabController = TabController(vsync: this, initialIndex: 1, length: 2);
+    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        top: false,
-        child: IndexedStack(
-          index: _currentIndex,
-          children: allDestinations.map<Widget>((Destination destination) {
-            return DestinationView(destination: destination);
-          }).toList(),
+      appBar: AppBar(
+        backgroundColor: kPrimaryColor,
+        bottom: TabBar(
+          controller: _tabController,
+          indicatorColor: Theme.of(context).accentColor,
+          labelColor: kFourthColor,
+          unselectedLabelColor: Colors.white38,
+          labelStyle: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w800,
+          ),
+          unselectedLabelStyle: TextStyle(
+            fontSize: 20.0,
+            fontWeight: FontWeight.w800,
+          ),
+          tabs: <Widget>[
+            Tab(
+              text: "Signin",
+            ),
+            Tab(
+              text: "Signup",
+            ),
+          ],
         ),
       ),
-      bottomNavigationBar:
-      FancyBottomNavigation(
-        circleColor: Color.fromRGBO(55, 23, 65, 1),
-        inactiveIconColor: Color.fromRGBO(55, 23, 65, 0.7),
-        tabs: [
-          TabData(iconData: Icons.person_pin, title: "Sign In"),
-          TabData(iconData: Icons.supervised_user_circle, title: "Sign Up"),
+
+      body: TabBarView(
+        controller: _tabController,
+        children: <Widget>[
+          Login(title: 'Log In',),
+         SignUp(title: "Sign Up",),
         ],
-        onTabChangedListener: (position) {
-          setState(() {
-            _currentIndex = position;
-          });
-        },
-      )
-
+      ),
     );
-  }
-
-  @override
-  void initState() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp
-    ]);
   }
 
   @override
@@ -57,6 +72,6 @@ class _AppBaseState extends State<AppBase> with TickerProviderStateMixin<AppBase
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp
     ]);
+    super.dispose();
   }
-
 }

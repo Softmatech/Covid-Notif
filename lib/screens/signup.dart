@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_practice/screens/timeline.dart';
 
 class SignUp extends StatefulWidget {
@@ -111,7 +112,7 @@ class _SignUpState extends State<SignUp> {
                   child: Text(
                     'Sign Up',
                     style: TextStyle(
-                      color: Color.fromRGBO(55, 23, 65, 1),
+                      color: kPrimaryColor,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -126,6 +127,7 @@ class _SignUpState extends State<SignUp> {
 
   @override
   void initState() {
+    super.initState();
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
@@ -139,5 +141,6 @@ class _SignUpState extends State<SignUp> {
       DeviceOrientation.portraitDown,
       DeviceOrientation.portraitUp
     ]);
+    super.dispose();
   }
 }
