@@ -5,6 +5,7 @@ import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'counter.dart';
+import 'my_header.dart';
 
 
 class Timeline extends StatefulWidget {
@@ -18,7 +19,7 @@ class _TimelineState extends State<Timeline> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          MyHeader(),
+          MyHeader(image: "assets/icons/social_distancing.svg",text: "Please wear a mask, Stay at Home !",),
           Container(
             margin: EdgeInsets.symmetric(horizontal: 20),
             padding: EdgeInsets.symmetric(vertical: 10,horizontal: 20),
@@ -180,85 +181,4 @@ class _TimelineState extends State<Timeline> {
 
 }
 
-class MyHeader extends StatelessWidget {
-  const MyHeader({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ClipPath(
-      clipper: MyClipper(),
-      child: Container(
-        padding: EdgeInsets.only(left: 40, top: 50, right: 20),
-        height: 350,
-        width: double.infinity,
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [
-                  kFourthColor,
-                  kFourthColor
-                ]
-            ),
-            image: DecorationImage(
-                image: AssetImage("assets/images/virus.png")
-            )
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Align(
-              alignment: Alignment.topRight,
-                child: SvgPicture.asset("assets/icons/menu.svg"),
-            ),
-            SizedBox(height: 20,),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  SvgPicture.asset(
-                    "assets/icons/social_distancing.svg",
-                    width: 230,
-                    fit: BoxFit.fitWidth,
-                    alignment: Alignment.topCenter,
-                  ),
-                  Positioned(
-                    top: 0,
-                    left: 0,
-                    child: Text(
-                      "Wear a Mask Please, Stay Home !",
-                      style: Theme.of(context).textTheme.headline4,
-                    ),
-                  ),
-                  Container(),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-
-class MyClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0, size.height - 80);
-    path.quadraticBezierTo(size.width / 2 , size.height, size.width, size.height - 80);
-    path.lineTo(size.width, 0);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    // TODO: implement shouldReclip
-    return false;
-  }
-
-}
 
