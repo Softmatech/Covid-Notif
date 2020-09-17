@@ -44,9 +44,9 @@ class _InfoScreenState extends State<InfoScreen> {
                       SizedBox(height: 20,),
                       Text(
                         "Prevention",
-                        style: Theme.of(context).textTheme.headline4,
+                        style: Theme.of(context).textTheme.headline5,
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(height: 10,),
                       PreventionCard(image: "assets/images/wear_mask.png",
                         title: "Always wear your Mask !",
                         text: "It's esential for your own security !",

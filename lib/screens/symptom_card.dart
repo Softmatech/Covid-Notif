@@ -33,7 +33,7 @@ class SymptomCard extends StatelessWidget {
       ),
       child: Column(
         children: <Widget>[
-          Image.asset(image, height: 90,),
+          Image.asset(image, height: 90,width: 100,),
           Text(
             title,
             style: TextStyle(

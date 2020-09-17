@@ -30,6 +30,8 @@ class MyHeader extends StatelessWidget {
                 ]
             ),
             image: DecorationImage(
+              alignment: Alignment.topRight,
+              fit: BoxFit.scaleDown,
                 image: AssetImage("assets/images/virus.png")
             )
         ),
@@ -51,7 +53,7 @@ class MyHeader extends StatelessWidget {
                     alignment: Alignment.topCenter,
                   ),
                   Positioned(
-                    top: 0,
+                    top: 160,
                     left: 0,
                     child: Text(
                       "$text",
