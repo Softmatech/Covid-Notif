@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_practice/Services/networking.dart';
 import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 import 'counter.dart';
 import 'my_header.dart';
-
 
 class Timeline extends StatefulWidget {
   @override
@@ -14,6 +13,11 @@ class Timeline extends StatefulWidget {
 }
 
 class _TimelineState extends State<Timeline> {
+
+  var infected ;
+  var deaths ;
+  var recovered;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -100,7 +104,7 @@ class _TimelineState extends State<Timeline> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       Counter(
-                        number: 4321,
+                        number: infected,
                         color: Colors.orange,
                         title: "Infected",
                       ),
@@ -166,6 +170,14 @@ class _TimelineState extends State<Timeline> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
+
+    var data = NetworkHelper("https://covid19-api.org/api/timeline/HT");
+    print("data---->> $data");
+
+    // infected = data[0]["cases"];
+    // deaths = jsonDecode(data)[0]["deaths"];
+    // recovered = jsonDecode(data)[0]["recovered"];
+    print(infected);
   }
 
   @override
@@ -178,6 +190,7 @@ class _TimelineState extends State<Timeline> {
     ]);
     super.dispose();
   }
+
 
 }
 
