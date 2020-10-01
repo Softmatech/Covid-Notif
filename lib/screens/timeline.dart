@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_practice/Services/networking.dart';
 import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'counter.dart';
 import 'my_header.dart';
 
 class Timeline extends StatefulWidget {
+
+  final coronaData;
+
+  const Timeline({Key key, this.coronaData}) : super(key: key);
+
   @override
   _TimelineState createState() => _TimelineState();
 }
@@ -17,6 +21,7 @@ class _TimelineState extends State<Timeline> {
   var infected ;
   var deaths ;
   var recovered;
+  var countrySelected = "Haiti";
 
   @override
   Widget build(BuildContext context) {
@@ -109,12 +114,12 @@ class _TimelineState extends State<Timeline> {
                         title: "Infected",
                       ),
                       Counter(
-                        number: 123,
+                        number: deaths,
                         color: Colors.redAccent,
                         title: "Deaths",
                       ),
                       Counter(
-                        number: 4210,
+                        number: recovered,
                         color: Colors.green,
                         title: "Recovered",
                       )
@@ -164,6 +169,12 @@ class _TimelineState extends State<Timeline> {
     );
   }
 
+  updateData(dynamic data){
+    infected = data["cases"];
+    deaths = data["deaths"];
+    recovered = data["recovered"];
+  }
+
   @override
   void initState() {
     super.initState();
@@ -171,13 +182,7 @@ class _TimelineState extends State<Timeline> {
       DeviceOrientation.portraitUp
     ]);
 
-    var data = NetworkHelper("https://covid19-api.org/api/timeline/HT");
-    print("data---->> $data");
-
-    // infected = data[0]["cases"];
-    // deaths = jsonDecode(data)[0]["deaths"];
-    // recovered = jsonDecode(data)[0]["recovered"];
-    print(infected);
+    updateData(widget.coronaData);
   }
 
   @override

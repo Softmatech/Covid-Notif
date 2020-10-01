@@ -4,15 +4,14 @@ import 'dart:convert';
 
 class NetworkHelper{
 
-    final String url;
       NetworkHelper(this.url);
+      final String url;
 
     Future getDataFromApi() async{
       http.Response response = await http.get(url);
 
       if(response.statusCode == 200) {
         String data = response.body;
-        print(" 1--->> ${jsonDecode(data)}");
         return jsonDecode(data);
       }else{
         print("Error ${response.statusCode}");

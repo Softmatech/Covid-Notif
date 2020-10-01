@@ -5,7 +5,7 @@ import 'package:flutter_practice/screens/appbase.dart';
 import 'package:flutter_practice/screens/info_screen.dart';
 import 'package:flutter_practice/screens/login_screen.dart';
 import 'package:flutter_practice/screens/signup.dart';
-
+import 'package:flutter_practice/screens/WaitingScreen.dart';
 import 'screens/timeline.dart';
 
 void main() {
@@ -22,10 +22,11 @@ class MyApp extends StatelessWidget {
         '/SignUp': (BuildContext context) => SignUp(title: 'Sign Up',),
         '/Timeline': (BuildContext context) => Timeline(),
         '/Infoscreen': (BuildContext context) => InfoScreen(),
+        '/Splashscreen': (BuildContext context) => WaitingScreen(),
       },
       title: 'NouKòd Flutter Practice',
       theme: ThemeData(
-        scaffoldBackgroundColor:  Color.fromRGBO(55, 23, 65, 1),
+        scaffoldBackgroundColor:  kPrimaryColor,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
         textTheme: TextTheme(
