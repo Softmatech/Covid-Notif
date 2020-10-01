@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_practice/Services/networking.dart';
 import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'counter.dart';
@@ -8,9 +9,9 @@ import 'my_header.dart';
 
 class Timeline extends StatefulWidget {
 
-  final coronaData;
+  final List<String> countriesArray;
 
-  const Timeline({Key key, this.coronaData}) : super(key: key);
+  const Timeline({Key key, this.countriesArray}) : super(key: key);
 
   @override
   _TimelineState createState() => _TimelineState();
@@ -22,6 +23,12 @@ class _TimelineState extends State<Timeline> {
   var deaths ;
   var recovered;
   var countrySelected = "Haiti";
+
+
+
+  // Future<void> getCountryList() async{
+  //
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +58,7 @@ class _TimelineState extends State<Timeline> {
                     underline: SizedBox(),
                     icon: SvgPicture.asset("assets/icons/dropdown.svg"),
                     value: "Haiti",
-                    items: ["Haiti","Dominican Republic","USA","Canada","Chile","Brazil"]
+                    items: widget.countriesArray
                   .map<DropdownMenuItem<String>>((String value){
                   return DropdownMenuItem<String>(
                   value: value,
@@ -181,8 +188,7 @@ class _TimelineState extends State<Timeline> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
-
-    updateData(widget.coronaData);
+    // updateData(widget.coronaData);
   }
 
   @override
