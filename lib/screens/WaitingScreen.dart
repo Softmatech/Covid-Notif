@@ -20,19 +20,19 @@ class _WaitingScreenState extends State<WaitingScreen> {
   }
 
   Future<void> getData() async{
-    // var networkHelper = NetworkHelper("https://covid19-api.org/api/status/HT");
-    // var data = await networkHelper.getDataFromApi();
-
-    var networkHelper = NetworkHelper("https://covid19-api.org/api/countries");
+    var networkHelper = NetworkHelper("https://covid19-api.org/api/status/HT");
     var data = await networkHelper.getDataFromApi();
-    for (var country in data ){
+
+    var networkHelper_ = NetworkHelper("https://covid19-api.org/api/countries");
+    var data_ = await networkHelper_.getDataFromApi();
+    for (var country in data_ ){
       countriesMap[country["name"]] = country["alpha2"];
       countriesArray.add(country["name"]);
     }
     print(countriesArray);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return Timeline(countriesArray: countriesArray);
+      return Timeline(countriesArray: countriesArray, coronaData: data,);
     },));
   }
 

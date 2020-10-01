@@ -10,8 +10,9 @@ import 'my_header.dart';
 class Timeline extends StatefulWidget {
 
   final List<String> countriesArray;
+  final coronaData;
 
-  const Timeline({Key key, this.countriesArray}) : super(key: key);
+  const Timeline({Key key, this.countriesArray, this.coronaData}) : super(key: key);
 
   @override
   _TimelineState createState() => _TimelineState();
@@ -188,7 +189,7 @@ class _TimelineState extends State<Timeline> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
-    // updateData(widget.coronaData);
+    updateData(widget.coronaData);
   }
 
   @override
