@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,6 +32,7 @@ class _TimelineState extends State<Timeline> {
   List<String> countriesArray = [];
   var predictionDate;
   var predictionCase;
+  List<LineChartBarData> lineBar = [];
   bool isProgress = false;
 
   String getTagForCountry(String name){
@@ -197,7 +199,11 @@ class _TimelineState extends State<Timeline> {
                         ),
                       ]
                     ),
-                    child: Image.asset("assets/images/map.png", fit: BoxFit.scaleDown,),
+                    child: LineChart(
+                      LineChartData(
+                        lineBarsData: lineBar,
+                      )
+                    ),
                   ),
                 ],
               ),
@@ -220,6 +226,7 @@ class _TimelineState extends State<Timeline> {
 
   updatePredictionData(dynamic data){
     setState(() {
+      
       // predictionDate =
     });
 
