@@ -6,13 +6,15 @@ import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'counter.dart';
 import 'my_header.dart';
+import 'package:intl/intl.dart';
+
 
 class Timeline extends StatefulWidget {
 
-  final List<String> countriesArray;
-  final coronaData;
+  final countriesArray;
+  final countriesMap;
 
-  const Timeline({Key key, this.countriesArray, this.coronaData}) : super(key: key);
+  const Timeline({Key key,this.countriesMap, this.countriesArray}) : super(key: key);
 
   @override
   _TimelineState createState() => _TimelineState();
@@ -20,16 +22,34 @@ class Timeline extends StatefulWidget {
 
 class _TimelineState extends State<Timeline> {
 
-  var infected ;
-  var deaths ;
-  var recovered;
-  var countrySelected = "Haiti";
+  var infected = 0;
+  var deaths = 0;
+  var recovered = 0;
+  var date_ = DateTime.now();
+  String selectedCountry = "Haiti";
+  List<String> countriesArray = [];
 
 
+  String getTagForCountry(String name){
+        String tag = widget.countriesMap[name];
+        return tag;
+  }
 
-  // Future<void> getCountryList() async{
-  //
-  // }
+  String formatDate(DateTime dateTime){
+    final DateFormat formatter = DateFormat('dd-MM-yyyy');
+    final String formatted = formatter.format(dateTime);
+    print(formatted);
+    return formatted;
+  }
+
+  Future<void> getData(String country) async{
+    var tag = await getTagForCountry(country);
+    print(tag);
+    var networkHelper = NetworkHelper("https://covid19-api.org/api/status/$tag");
+    var data = await networkHelper.getDataFromApi();
+    //
+    updateData(data);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,14 +78,19 @@ class _TimelineState extends State<Timeline> {
                     isExpanded: true,
                     underline: SizedBox(),
                     icon: SvgPicture.asset("assets/icons/dropdown.svg"),
-                    value: "Haiti",
+                    value: selectedCountry,
                     items: widget.countriesArray
                   .map<DropdownMenuItem<String>>((String value){
                   return DropdownMenuItem<String>(
                   value: value,
                 child:Text(value),
                   );
-                }).toList(),onChanged: (value){},),)
+                }).toList(),onChanged: (value){
+                      setState(() {
+                        selectedCountry = value;
+                      });
+                      print(getData(value));
+                  },),)
               ],
             ),
           ),
@@ -84,7 +109,7 @@ class _TimelineState extends State<Timeline> {
                           style: Theme.of(context).textTheme.headline5
                         ),
                         TextSpan(
-                          text: "Newest update September 16",
+                          text: "Newest update ${formatDate(date_)}",
                           style: Theme.of(context).textTheme.headline6
                         ),
                       ]
@@ -114,7 +139,7 @@ class _TimelineState extends State<Timeline> {
                     ]
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
                       Counter(
                         number: infected,
@@ -178,9 +203,12 @@ class _TimelineState extends State<Timeline> {
   }
 
   updateData(dynamic data){
-    infected = data["cases"];
-    deaths = data["deaths"];
-    recovered = data["recovered"];
+    setState(() {
+      infected = data["cases"];
+      deaths = data["deaths"];
+      recovered = data["recovered"];
+    });
+
   }
 
   @override
@@ -189,7 +217,7 @@ class _TimelineState extends State<Timeline> {
     SystemChrome.setPreferredOrientations([
       DeviceOrientation.portraitUp
     ]);
-    updateData(widget.coronaData);
+      getData(selectedCountry);
   }
 
   @override

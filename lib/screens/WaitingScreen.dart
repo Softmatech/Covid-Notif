@@ -10,7 +10,8 @@ class WaitingScreen extends StatefulWidget {
 
 class _WaitingScreenState extends State<WaitingScreen> {
 
-  var countriesMap = new Map();
+  String tag = "HT";
+  var countriesMap = Map<String, String>();
   List<String> countriesArray = [];
 
   @override
@@ -20,19 +21,17 @@ class _WaitingScreenState extends State<WaitingScreen> {
   }
 
   Future<void> getData() async{
-    var networkHelper = NetworkHelper("https://covid19-api.org/api/status/HT");
-    var data = await networkHelper.getDataFromApi();
 
     var networkHelper_ = NetworkHelper("https://covid19-api.org/api/countries");
     var data_ = await networkHelper_.getDataFromApi();
+
     for (var country in data_ ){
       countriesMap[country["name"]] = country["alpha2"];
       countriesArray.add(country["name"]);
     }
-    print(countriesArray);
 
     Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return Timeline(countriesArray: countriesArray, coronaData: data,);
+      return Timeline(countriesMap: countriesMap,countriesArray: countriesArray,);
     },));
   }
 
