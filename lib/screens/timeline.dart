@@ -77,7 +77,6 @@ class _TimelineState extends State<Timeline> {
   String formatDate(DateTime dateTime){
     final DateFormat formatter = DateFormat('dd-MM-yyyy');
     final String formatted = formatter.format(dateTime);
-    print(formatted);
     return formatted;
   }
 
@@ -94,15 +93,15 @@ class _TimelineState extends State<Timeline> {
       var tag = getTagForCountry(country);
       try{
         var url = "https://covid19-api.org/api/prediction/$tag";
-        var networkHelper_ = await NetworkHelper(url);
-        var data_ = await networkHelper_.getDataFromApi();
+        var networkHelper = await NetworkHelper(url);
+        var data = await networkHelper.getDataFromApi();
         //clear map
-        predictionMap.clear();
         predictionArray.clear();
-        for (var case_ in data_) {
-          print('data-------------------->> $case_');
-          predictionMap[case_["date"]] = case_["cases"];
-          predictionArray.add(case_["cases"]);
+        for (var cases in data) {
+          // predictionMap[case_["date"]] = case_["cases"];
+          var d = cases["cases"].toDouble();
+            predictionArray.add(d);
+            print('prediction -------------------->> $predictionArray');
         }
       }catch(e){
       }
@@ -301,13 +300,15 @@ class _TimelineState extends State<Timeline> {
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
                         child: new Sparkline(
-                          data: [0.0,1.0,1.5,2.0,0.0,-0.5,-1.0,-0.5,0.0,0.0],
+                          data: predictionArray,
                           lineColor: Colors.greenAccent,
                           fillMode: FillMode.below,
+                          pointSize: 7.0,
+                          pointsMode: PointsMode.all,
                           fillGradient :LinearGradient(
                             begin: Alignment.bottomLeft,
                             end: Alignment.topRight,
-                            colors: [kSecondaryColor, kThirdColor],
+                            colors: [kFourthColor, kFourthColor],
                           ),
                         ),
                       ),
