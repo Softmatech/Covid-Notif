@@ -10,6 +10,7 @@ import 'package:flutter_practice/Utility/constants.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
+import 'AnimatedCircularChart.dart';
 import 'counter.dart';
 import 'my_header.dart';
 import 'package:intl/intl.dart';
@@ -29,7 +30,7 @@ class Timeline extends StatefulWidget {
 
 class _TimelineState extends State<Timeline> {
 
-  final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
+
   var infected = 0;
   var deaths = 0;
   var recovered = 0;
@@ -40,18 +41,8 @@ class _TimelineState extends State<Timeline> {
   var predictionCase;
   bool isProgress = false;
   var predictionMap = Map<String, int>();
-  var predictionArray = [0.0,1.0,1.5,2.0,0.0,-0.5,-1.0,-0.5,0.0,0.0];
-
-  List<CircularStackEntry> data = <CircularStackEntry>[
-    new CircularStackEntry(
-      <CircularSegmentEntry>[
-        new CircularSegmentEntry(0.0, Colors.orange, rankKey: 'Infected'),
-        new CircularSegmentEntry(0.0, Colors.redAccent, rankKey: 'Deaths'),
-        new CircularSegmentEntry(0.0, Colors.green, rankKey: 'Recovered'),
-      ],
-      rankKey: 'Report',
-    ),
-  ];
+  var predictionArray = [0.0];
+  final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
 
   void _cycleSamples() {
     List<CircularStackEntry> nextData = <CircularStackEntry>[
@@ -61,7 +52,7 @@ class _TimelineState extends State<Timeline> {
           new CircularSegmentEntry(deaths.toDouble(), Colors.red, rankKey: 'Deaths'),
           new CircularSegmentEntry(recovered.toDouble(), Colors.green, rankKey: 'Recovered'),
         ],
-        rankKey: 'Quarterly Profits',
+        rankKey: 'Report',
       ),
     ];
     setState(() {
@@ -83,9 +74,7 @@ class _TimelineState extends State<Timeline> {
   Future<void> getCovidData(String country) async{
     var tag = await getTagForCountry(country);
     var networkHelper = NetworkHelper("https://covid19-api.org/api/status/$tag");
-    var networkHelper_ = NetworkHelper("https://covid19-api.org/api/prediction/$tag");
     var data = await networkHelper.getDataFromApi();
-    var data_ = await networkHelper.getDataFromApi();
     updateCovidData(data);
   }
 
@@ -93,15 +82,18 @@ class _TimelineState extends State<Timeline> {
       var tag = getTagForCountry(country);
       try{
         var url = "https://covid19-api.org/api/prediction/$tag";
+        print('url-------------------------------------->> $url');
         var networkHelper = await NetworkHelper(url);
         var data = await networkHelper.getDataFromApi();
         //clear map
         predictionArray.clear();
-        for (var cases in data) {
-          // predictionMap[case_["date"]] = case_["cases"];
-          var d = cases["cases"].toDouble();
+        if(data != null) {
+          for (var cases in data) {
+            // predictionMap[case_["date"]] = case_["cases"];
+            var d = cases["cases"].toDouble();
             predictionArray.add(d);
-            print('prediction -------------------->> $predictionArray');
+          }
+          print('prediction for $selectedCountry -------------------->> $predictionArray');
         }
       }catch(e){
       }
@@ -148,8 +140,8 @@ class _TimelineState extends State<Timeline> {
                             selectedCountry = value;
                             isProgress = true;
                           });
-                          getPredictionData(value);
                           getCovidData(value);
+                          getPredictionData(value);
                       },),)
                   ],
                 ),
@@ -256,12 +248,7 @@ class _TimelineState extends State<Timeline> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
-                        child: new AnimatedCircularChart(
-                          key: _chartKey,
-                          size: const Size(200.0, 180.0),
-                          initialChartData: data,
-                          chartType: CircularChartType.Pie,
-                        ),
+                        child: Text('Chart'),
                       ),
                     ),
                     SizedBox(height: 20,),
@@ -299,18 +286,7 @@ class _TimelineState extends State<Timeline> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(2.0),
-                        child: new Sparkline(
-                          data: predictionArray,
-                          lineColor: Colors.greenAccent,
-                          fillMode: FillMode.below,
-                          pointSize: 7.0,
-                          pointsMode: PointsMode.all,
-                          fillGradient :LinearGradient(
-                            begin: Alignment.bottomLeft,
-                            end: Alignment.topRight,
-                            colors: [kFourthColor, kFourthColor],
-                          ),
-                        ),
+                        child: Text('Prediction'),
                       ),
                     ),
                   ],
@@ -330,7 +306,6 @@ class _TimelineState extends State<Timeline> {
       recovered = data["recovered"];
       isProgress = false;
     });
-    _cycleSamples();
   }
 
 

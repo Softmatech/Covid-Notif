@@ -16,8 +16,8 @@ class Counter extends StatelessWidget {
       children: <Widget>[
         Container(
           padding: EdgeInsets.all(6),
-          height: 25,
-          width: 25,
+          height: 40,
+          width: 40,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: color.withOpacity(.50),
@@ -28,7 +28,7 @@ class Counter extends StatelessWidget {
               color: Colors.transparent,
               border: Border.all(
                   color: color,
-                  width: 2
+                  width: 1
               ),
             ),
           ),
@@ -37,7 +37,7 @@ class Counter extends StatelessWidget {
         Text(
           "$number",
           style: TextStyle(
-              fontSize: 30,
+              fontSize: 20,
               color: color
           ),
         ),
