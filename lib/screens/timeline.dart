@@ -7,10 +7,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_practice/Services/networking.dart';
 import 'package:flutter_practice/Utility/constants.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
-import 'AnimatedCircularChart.dart';
 import 'counter.dart';
 import 'my_header.dart';
 import 'package:intl/intl.dart';
@@ -30,7 +28,6 @@ class Timeline extends StatefulWidget {
 
 class _TimelineState extends State<Timeline> {
 
-
   var infected = 0;
   var deaths = 0;
   var recovered = 0;
@@ -44,21 +41,16 @@ class _TimelineState extends State<Timeline> {
   var predictionArray = [0.0];
   final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
 
-  void _cycleSamples() {
-    List<CircularStackEntry> nextData = <CircularStackEntry>[
-      new CircularStackEntry(
-        <CircularSegmentEntry>[
-          new CircularSegmentEntry(infected.toDouble(), Colors.orange, rankKey: 'Infected'),
-          new CircularSegmentEntry(deaths.toDouble(), Colors.red, rankKey: 'Deaths'),
-          new CircularSegmentEntry(recovered.toDouble(), Colors.green, rankKey: 'Recovered'),
-        ],
-        rankKey: 'Report',
-      ),
-    ];
-    setState(() {
-      _chartKey.currentState.updateData(nextData);
-    });
-  }
+  List<CircularStackEntry> data = <CircularStackEntry>[
+    new CircularStackEntry(
+      <CircularSegmentEntry>[
+        new CircularSegmentEntry(10.0, Colors.orange, rankKey: 'Infected'),
+        new CircularSegmentEntry(10.0, Colors.red, rankKey: 'Deaths'),
+        new CircularSegmentEntry(10.0, Colors.green, rankKey: 'Recovered'),
+      ],
+      rankKey: 'Report',
+    ),
+  ];
 
   String getTagForCountry(String name){
         String tag = widget.countriesMap[name];
@@ -248,7 +240,12 @@ class _TimelineState extends State<Timeline> {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.all(20),
-                        child: Text('Chart'),
+                        child: new AnimatedCircularChart(
+                          key: _chartKey,
+                          size: const Size(200.0, 180.0),
+                          initialChartData: data,
+                          chartType: CircularChartType.Pie,
+                        ),
                       ),
                     ),
                     SizedBox(height: 20,),
@@ -305,6 +302,20 @@ class _TimelineState extends State<Timeline> {
       deaths = data["deaths"];
       recovered = data["recovered"];
       isProgress = false;
+    });
+
+    List<CircularStackEntry> nextData = <CircularStackEntry>[
+      new CircularStackEntry(
+        <CircularSegmentEntry>[
+          new CircularSegmentEntry(infected.toDouble(), Colors.orange, rankKey: 'Infected'),
+          new CircularSegmentEntry(deaths.toDouble(), Colors.red, rankKey: 'Deaths'),
+          new CircularSegmentEntry(recovered.toDouble(), Colors.green, rankKey: 'Recovered'),
+        ],
+        rankKey: 'Report',
+      ),
+    ];
+    setState(() {
+      _chartKey.currentState.updateData(nextData);
     });
   }
 
