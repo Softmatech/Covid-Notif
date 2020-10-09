@@ -22,12 +22,14 @@ class Timeline extends StatefulWidget {
 
   const Timeline({Key key,this.countriesMap, this.countriesArray}) : super(key: key);
 
+
   @override
   _TimelineState createState() => _TimelineState();
 }
 
 class _TimelineState extends State<Timeline> {
 
+  final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
   var infected = 0;
   var deaths = 0;
   var recovered = 0;
@@ -37,25 +39,35 @@ class _TimelineState extends State<Timeline> {
   var predictionDate;
   var predictionCase;
   bool isProgress = false;
-  final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
-  List<CircularStackEntry> nextData;
+  var predictionMap = Map<String, int>();
+  var predictionArray = [0.0,1.0,1.5,2.0,0.0,-0.5,-1.0,-0.5,0.0,0.0];
+
+  List<CircularStackEntry> data = <CircularStackEntry>[
+    new CircularStackEntry(
+      <CircularSegmentEntry>[
+        new CircularSegmentEntry(0.0, Colors.orange, rankKey: 'Infected'),
+        new CircularSegmentEntry(0.0, Colors.redAccent, rankKey: 'Deaths'),
+        new CircularSegmentEntry(0.0, Colors.green, rankKey: 'Recovered'),
+      ],
+      rankKey: 'Report',
+    ),
+  ];
 
   void _cycleSamples() {
     List<CircularStackEntry> nextData = <CircularStackEntry>[
       new CircularStackEntry(
         <CircularSegmentEntry>[
           new CircularSegmentEntry(infected.toDouble(), Colors.orange, rankKey: 'Infected'),
-          new CircularSegmentEntry(deaths.toDouble(), Colors.redAccent, rankKey: 'Deaths'),
+          new CircularSegmentEntry(deaths.toDouble(), Colors.red, rankKey: 'Deaths'),
           new CircularSegmentEntry(recovered.toDouble(), Colors.green, rankKey: 'Recovered'),
         ],
-        rankKey: 'Report',
+        rankKey: 'Quarterly Profits',
       ),
     ];
     setState(() {
       _chartKey.currentState.updateData(nextData);
     });
   }
-
 
   String getTagForCountry(String name){
         String tag = widget.countriesMap[name];
@@ -76,6 +88,24 @@ class _TimelineState extends State<Timeline> {
     var data = await networkHelper.getDataFromApi();
     var data_ = await networkHelper.getDataFromApi();
     updateCovidData(data);
+  }
+
+  Future<void> getPredictionData(String country) async {
+      var tag = getTagForCountry(country);
+      try{
+        var url = "https://covid19-api.org/api/prediction/$tag";
+        var networkHelper_ = await NetworkHelper(url);
+        var data_ = await networkHelper_.getDataFromApi();
+        //clear map
+        predictionMap.clear();
+        predictionArray.clear();
+        for (var case_ in data_) {
+          print('data-------------------->> $case_');
+          predictionMap[case_["date"]] = case_["cases"];
+          predictionArray.add(case_["cases"]);
+        }
+      }catch(e){
+      }
   }
 
   @override
@@ -119,6 +149,7 @@ class _TimelineState extends State<Timeline> {
                             selectedCountry = value;
                             isProgress = true;
                           });
+                          getPredictionData(value);
                           getCovidData(value);
                       },),)
                   ],
@@ -225,11 +256,11 @@ class _TimelineState extends State<Timeline> {
                         ]
                       ),
                       child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: AnimatedCircularChart(
+                        padding: const EdgeInsets.all(20),
+                        child: new AnimatedCircularChart(
                           key: _chartKey,
-                          size: const Size(200.0, 200.0),
-                          initialChartData: nextData,
+                          size: const Size(200.0, 180.0),
+                          initialChartData: data,
                           chartType: CircularChartType.Pie,
                         ),
                       ),
@@ -297,18 +328,10 @@ class _TimelineState extends State<Timeline> {
       deaths = data["deaths"];
       recovered = data["recovered"];
       isProgress = false;
-      _cycleSamples();
     });
-
+    _cycleSamples();
   }
 
-  updatePredictionData(dynamic data){
-    setState(() {
-      
-      // predictionDate =
-    });
-
-  }
 
   @override
   void initState() {
