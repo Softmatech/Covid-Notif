@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_practice/Services/networking.dart';
 import 'package:flutter_practice/Utility/constants.dart';
+import 'package:flutter_sparkline/flutter_sparkline.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'counter.dart';
@@ -38,7 +39,7 @@ class _TimelineState extends State<Timeline> {
   var predictionCase;
   bool isProgress = false;
   var predictionMap = Map<String, int>();
-  var predictionArray = [0.0];
+  var predictionArray = [0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.3, 0.4, 0.4, 0.4];
   final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
 
   List<CircularStackEntry> data = <CircularStackEntry>[
@@ -77,18 +78,40 @@ class _TimelineState extends State<Timeline> {
         print('url-------------------------------------->> $url');
         var networkHelper = await NetworkHelper(url);
         var data = await networkHelper.getDataFromApi();
+        print('data---------------------------------------->> $data');
         //clear map
         predictionArray.clear();
         if(data != null) {
           for (var cases in data) {
             // predictionMap[case_["date"]] = case_["cases"];
             var d = cases["cases"].toDouble();
-            predictionArray.add(d);
+            predictionArray.add(predictionConverter(d));
           }
-          print('prediction for $selectedCountry -------------------->> $predictionArray');
         }
+          print('prediction for $selectedCountry -------------------->> $predictionArray');
       }catch(e){
       }
+  }
+
+  double predictionConverter(double number){
+    var result;
+    if(number > 10 && number <100){
+      print('10');
+      result = (number / 100);
+    } else if(number > 100 && number <1000){
+      print('100');
+      result = (number / 1000);
+    } else if(number > 1000 && number <10000){
+      print('1000');
+      result = (number / 10000);
+    } else if(number > 10000 && number < 100000){
+      print('10000');
+      result = (number / 100000);
+    }else if(number > 100000 && number < 1000000){
+      print('100000');
+      result = (number / 1000000);
+    }
+    return double.parse(result.toStringAsFixed(1));
   }
 
   @override
@@ -132,8 +155,8 @@ class _TimelineState extends State<Timeline> {
                             selectedCountry = value;
                             isProgress = true;
                           });
-                          getCovidData(value);
                           getPredictionData(value);
+                          getCovidData(value);
                       },),)
                   ],
                 ),
@@ -281,9 +304,11 @@ class _TimelineState extends State<Timeline> {
                             ),
                           ]
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(2.0),
-                        child: Text('Prediction'),
+                      child: new Sparkline(
+                        data: predictionArray,
+                        pointsMode: PointsMode.all,
+                        pointSize: 8.0,
+                        pointColor: Colors.amber,
                       ),
                     ),
                   ],
@@ -319,7 +344,6 @@ class _TimelineState extends State<Timeline> {
     });
   }
 
-
   @override
   void initState() {
     super.initState();
@@ -339,7 +363,6 @@ class _TimelineState extends State<Timeline> {
     ]);
     super.dispose();
   }
-
 
 }
 

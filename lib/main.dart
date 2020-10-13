@@ -1,12 +1,13 @@
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_practice/Utility/constants.dart';
-import 'package:flutter_practice/screens/appbase.dart';
 import 'package:flutter_practice/screens/info_screen.dart';
 import 'package:flutter_practice/screens/login_screen.dart';
 import 'package:flutter_practice/screens/signup.dart';
 import 'package:flutter_practice/screens/WaitingScreen.dart';
 import 'screens/timeline.dart';
+import 'package:page_transition/page_transition.dart';
 
 void main() {
   runApp(MyApp());
@@ -56,7 +57,14 @@ class MyApp extends StatelessWidget {
         ),
 
       ),
-      home: AppBase()
+      home: AnimatedSplashScreen(
+        splashIconSize: 10000.0,
+        duration: 5000,
+        backgroundColor: kFourthColor,
+        splash: Image.asset('assets/images/wear_mask.png'),
+        nextScreen: WaitingScreen(),
+        splashTransition: SplashTransition.rotationTransition,
+      )
     );
   }
 }
